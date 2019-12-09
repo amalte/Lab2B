@@ -1,0 +1,36 @@
+﻿UPPGIFT 2: BEROENDEN
+Analysera de beroenden som finns med avseende på cohesion och coupling, och Dependency Inversion Principle.
+Vilka beroenden är nödvändiga? :
+Alla, förutom CarView och CarController. Går båda vägarna, vilket den inte ska.
+
+Vilka klasser är beroende av varandra som inte bör vara det? :
+MotoriziedVehicle och VehicleGUI, och CarView och CarController (bör endast vara beroende åt ett håll)
+
+Finns det starkare beroenden än nödvändigt? :
+Ja, många starka beroenden på Movable. CarView och CarController.
+
+Kan ni identifiera några brott mot övriga designprinciper vi pratat om i kursen? :
+Kanske. Composition over Inheritance. Vi använder oss mer av arv än delegering. Bryter mot High Cohesion and Low Coupling (mellan CarView och CarController)
+ 
+UPPGIFT 3: ANSVARSOMRÅDEN
+Analysera era klasser med avseende på Separation of Concern (SoC) och Single Responsibility Principle (SRP).
+Vilka ansvarsområden har era klasser? :
+MotoriziedVehicle sköter endast fordon med motorer och ger dem den funktionalitet dem behöver.
+TransportableHolder ger objekt förmågan att "hålla" i andra objekt av valfri ITransportable typ.
+osv...
+Följer SRP vad vi märker.
+
+Vilka anledningar har de att förändras? :
+Endast för utökning. 
+
+På vilka klasser skulle ni behöva tillämpa dekomposition för att bättre följa SoC och SRP? :
+Tillämpa MVC för CarController, CarView och Model packaged
+
+UPPGIFT 4: NY DESIGN
+x Ta bort "Has-A" CarController från CarView 
+x Flytta ActionListeners till CarController (Controller ska sköta användarinput).
+? Skapa en metod i CarController som lägger till en MotoriziedVehicle i vehicle och vehicleGUI listan (istället för att mata in dem direkt i konstruktorn) för att motverka inflexibilitet.
+- Skapa en metod i CarController som tar emot en view och tillämpar controllerns funktionalitet på viewen (flera views kan tillägas)
+x Ta bort MotoriziedVehicle (Volvo240, Saab95, Scania) beroenderna som finns i VehicleGUI genom att använda getModelName.
+? Flytta timern från CarController till Main.
+x Ta bort Point variabeln i VehicleGUI och ersätt med Modelens koordinater
