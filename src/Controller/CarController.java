@@ -3,6 +3,7 @@ package Controller;
 import View.CarView;
 import Model.Saab95;
 import Model.Scania;
+import View.VehicleGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -137,9 +138,14 @@ public class CarController {
             if(frame.getVehicleGUI(i).getVehicle().getModelName() == "Scania") {
                 ((Scania) frame.getVehicleGUI(i).getVehicle()).raiseFlatbed();
             }
-        }
-    }
 
+            for(VehicleGUI vehicleGUI : frame.getVehicleGUIList()) {
+
+            }
+        }
+
+
+    }
     // Calls the lowerFlatbed method if vehicle is a Scania
     void lowerBed() {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {

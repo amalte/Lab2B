@@ -34,3 +34,9 @@ x Flytta ActionListeners till CarController (Controller ska sköta användarinpu
 x Ta bort MotoriziedVehicle (Volvo240, Saab95, Scania) beroenderna som finns i VehicleGUI genom att använda getModelName.
 ? Flytta timern från CarController till Main.
 x Ta bort Point variabeln i VehicleGUI och ersätt med Modelens koordinater
+
+
+FRÅGOR:
+Diamant pilar (PILAR GENERELLT)
+== istället för .equals i String jämförelse (VehicleGUI).
+

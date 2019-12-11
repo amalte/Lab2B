@@ -115,8 +115,43 @@ public class CarView extends JFrame{
                 drawPanel.getVehicleGUIs().get(i).getVehicle().move();
                 drawPanel.repaint();    //Calls the paintComponent method of the panel
             }
-            drawPanel.keepVehiclesInsidePanel();
+            keepVehiclesInsidePanel();
         }
+    }
+
+    // Doesn't allow the vehicles to leave the panel
+    void keepVehiclesInsidePanel() {
+        for(VehicleGUI vehicleGUI : drawPanel.getVehicleGUIs()) {
+
+            // Checks if the vehicle left the panel
+            if(outOfPanel(vehicleGUI)) {
+                vehicleGUI.getVehicle().stopEngine();
+
+                // Corrects the position so the vehicle image isn't outside of panel anymore
+                correctPosition(vehicleGUI);
+                // Inverts direction so it continues the movement to the other side of the panel
+                vehicleGUI.getVehicle().turnRight();
+                vehicleGUI.getVehicle().turnRight();
+
+                vehicleGUI.getVehicle().startEngine();
+            }
+        }
+    }
+
+    // Checks if a vehicle image has left the panel
+    private boolean outOfPanel(VehicleGUI vehicleGUI) {
+        return (vehicleGUI.getVehicle().getY() < 0) ||
+                (vehicleGUI.getVehicle().getY() + vehicleGUI.getImage().getHeight() > drawPanel.getHeight() ||
+                        (vehicleGUI.getVehicle().getX() < 0) ||
+                        (vehicleGUI.getVehicle().getX() + vehicleGUI.getImage().getWidth() > drawPanel.getWidth()));
+    }
+
+    // Corrects the position so the vehicle image isn't outside of panel anymore
+    private void correctPosition(VehicleGUI vehicleGUI) {
+        double x = Math.min(vehicleGUI.getVehicle().getX(), drawPanel.getWidth() - vehicleGUI.getImage().getWidth());
+        vehicleGUI.getVehicle().setX(Math.max(x, 0));
+        double y = Math.min(vehicleGUI.getVehicle().getY(), drawPanel.getHeight() - vehicleGUI.getImage().getHeight());
+        vehicleGUI.getVehicle().setY(Math.max(y, 0));
     }
 
     // Starts the timer so the view can be updated
