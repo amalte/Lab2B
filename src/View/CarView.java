@@ -17,13 +17,10 @@ import java.util.ArrayList;
  * each of it's components.
  **/
 
-public class CarView extends JFrame{
-    private static final int X = 800;
-    private static final int Y = 800;
-    // The delay (ms) corresponds to 20 updates a sec (hz)
-    private final int delay = 50;
-    // The timer is started with an listener (see below) that executes the statements each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
+public class CarView extends View {
+    private static final int WIDTH = 800;
+    private static final int HEIGHT = 800;
+
 
     // Panels
     DrawPanel drawPanel;
@@ -46,17 +43,18 @@ public class CarView extends JFrame{
     JButton stopButton = new JButton("Stop all cars");
 
     // Constructor
-    public CarView(String frameName){
-        drawPanel = new DrawPanel(X, Y-240);
-        initComponents(frameName);
+    public CarView(){
+        super(WIDTH, HEIGHT);
+        drawPanel = new DrawPanel(WIDTH, HEIGHT-240);
+        initComponents();
     }
 
     // Sets everything in place and fits everything
-    private void initComponents(String title) {
+    @Override
+    protected void initComponents() {
 
         // General
-        this.setTitle(title);
-        this.setPreferredSize(new Dimension(X,Y));
+        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.add(drawPanel);
 
@@ -83,40 +81,34 @@ public class CarView extends JFrame{
         controlPanel.add(brakeButton, 3);
         controlPanel.add(turboOffButton, 4);
         controlPanel.add(lowerBedButton, 5);
-        controlPanel.setPreferredSize(new Dimension((X/2)+4, 200));
+        controlPanel.setPreferredSize(new Dimension((WIDTH/2)+4, 200));
         controlPanel.setBackground(Color.CYAN);
         this.add(controlPanel);
 
         // Start button
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension(X/5-15,200));
+        startButton.setPreferredSize(new Dimension(WIDTH/5-15,200));
         this.add(startButton);
 
         // Stop button
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension(X/5-15,200));
+        stopButton.setPreferredSize(new Dimension(WIDTH/5-15,200));
         this.add(stopButton);
 
-        this.pack();    // Make the frame pack all it's components by respecting the sizes if possible.
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();    // Get the computer screen resolution
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2); // Center the frame
-        this.setVisible(true);  // Make the frame visible
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    // Make sure the frame exits when "x" is pressed
+
+
+
+
     }
 
-    /* Each step the TimerListener moves all the cars in the list and tells the
-     * view to update its images. Change this method to your needs.
-     */
-    private class TimerListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            for (int i = 0; i < drawPanel.getVehicleGUIs().size(); i++) {
-                drawPanel.getVehicleGUIs().get(i).getVehicle().move();
-                drawPanel.repaint();    //Calls the paintComponent method of the panel
-            }
-            keepVehiclesInsidePanel();
+    public void updateView() {
+        for (int i = 0; i < drawPanel.getVehicleGUIs().size(); i++) {
+            drawPanel.getVehicleGUIs().get(i).getVehicle().move();
+            drawPanel.repaint();    //Calls the paintComponent method of the panel
         }
+        keepVehiclesInsidePanel();
     }
 
     // Doesn't allow the vehicles to leave the panel
@@ -152,11 +144,6 @@ public class CarView extends JFrame{
         vehicleGUI.getVehicle().setX(Math.max(x, 0));
         double y = Math.min(vehicleGUI.getVehicle().getY(), drawPanel.getHeight() - vehicleGUI.getImage().getHeight());
         vehicleGUI.getVehicle().setY(Math.max(y, 0));
-    }
-
-    // Starts the timer so the view can be updated
-    public void startTimer() {
-        timer.start();
     }
 
     // Adds a vehicle to the view (panel)

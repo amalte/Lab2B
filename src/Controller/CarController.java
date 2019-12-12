@@ -1,8 +1,10 @@
 package Controller;
 
+import Model.Car;
 import View.CarView;
 import Model.Saab95;
 import Model.Scania;
+import View.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -20,6 +20,7 @@ public class DrawPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         for(VehicleGUI vehicleGUI : vehicleGUIs) {
             g.drawImage(vehicleGUI.getImage(), (int) vehicleGUI.getVehicle().getX(), (int) vehicleGUI.getVehicle().getY(), null); // see javadoc for more info on the parameters
         }
