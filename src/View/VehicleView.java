@@ -6,8 +6,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -17,10 +15,9 @@ import java.util.ArrayList;
  * each of it's components.
  **/
 
-public class CarView extends View {
+public class VehicleView extends View {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 800;
-
 
     // Panels
     DrawPanel drawPanel;
@@ -43,7 +40,7 @@ public class CarView extends View {
     JButton stopButton = new JButton("Stop all cars");
 
     // Constructor
-    public CarView(){
+    VehicleView(){
         super(WIDTH, HEIGHT);
         drawPanel = new DrawPanel(WIDTH, HEIGHT-240);
         initComponents();
@@ -54,7 +51,7 @@ public class CarView extends View {
     protected void initComponents() {
 
         // General
-        this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        //this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.add(drawPanel);
 
@@ -96,23 +93,33 @@ public class CarView extends View {
         stopButton.setForeground(Color.black);
         stopButton.setPreferredSize(new Dimension(WIDTH/5-15,200));
         this.add(stopButton);
-
-
-
-
-
     }
 
+    @Override
     public void updateView() {
         for (int i = 0; i < drawPanel.getVehicleGUIs().size(); i++) {
             drawPanel.getVehicleGUIs().get(i).getVehicle().move();
-            drawPanel.repaint();    //Calls the paintComponent method of the panel
+            drawPanel.repaint();    // Calls the paintComponent method of the panel
         }
         keepVehiclesInsidePanel();
     }
 
+    // Adds a vehicle (or multiple) to the view
+    public void addVehicle(MotorizedVehicle... vehicles) {
+        for(MotorizedVehicle motorizedVehicle : vehicles) {
+            drawPanel.getVehicleGUIs().add(new VehicleGUI(motorizedVehicle));
+        }
+    }
+
+    // Adds a vehicle to the view on the given coordinates
+    public void addVehicle(MotorizedVehicle vehicle, double x, double y) {
+        drawPanel.getVehicleGUIs().add(new VehicleGUI(vehicle));
+        vehicle.setX(x);
+        vehicle.setY(y);
+    }
+
     // Doesn't allow the vehicles to leave the panel
-    void keepVehiclesInsidePanel() {
+    private void keepVehiclesInsidePanel() {
         for(VehicleGUI vehicleGUI : drawPanel.getVehicleGUIs()) {
 
             // Checks if the vehicle left the panel
@@ -144,18 +151,6 @@ public class CarView extends View {
         vehicleGUI.getVehicle().setX(Math.max(x, 0));
         double y = Math.min(vehicleGUI.getVehicle().getY(), drawPanel.getHeight() - vehicleGUI.getImage().getHeight());
         vehicleGUI.getVehicle().setY(Math.max(y, 0));
-    }
-
-    // Adds a vehicle to the view (panel)
-    public void addVehicle(MotorizedVehicle vehicle) {
-        drawPanel.getVehicleGUIs().add(new VehicleGUI(vehicle));
-    }
-
-    // Adds a vehicle to the view on the given coordinates (panel)
-    public void addVehicle(MotorizedVehicle vehicle, double x, double y) {
-        drawPanel.getVehicleGUIs().add(new VehicleGUI(vehicle));
-        vehicle.setX(x);
-        vehicle.setY(y);
     }
 
     public ArrayList<VehicleGUI> getVehicleGUIList() {

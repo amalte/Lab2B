@@ -13,4 +13,5 @@ public abstract class View extends JPanel {
     }
 
     protected abstract void initComponents();
+    public abstract void updateView();
 }

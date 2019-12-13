@@ -1,10 +1,8 @@
 package Controller;
 
-import Model.Car;
-import View.CarView;
+import View.VehicleView;
 import Model.Saab95;
 import Model.Scania;
-import View.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +14,13 @@ import java.awt.event.ActionListener;
 * modifying the model state and the updating the view.
  */
 
-public class CarController {
+public class VehicleController {
 
     // The frame that represents this instance View of the MVC pattern
-    private CarView frame;
+    private VehicleView frame;
 
     // Constructor
-    public CarController(CarView frame) {
+    public VehicleController(VehicleView frame) {
         this.frame = frame;
         initActionListeners();
     }

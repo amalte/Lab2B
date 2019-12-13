@@ -80,7 +80,9 @@ public abstract class MotorizedVehicle extends Movable implements ISizeable {
      * Starts engine by setting currentSpeed to 0.1
      */
     public void startEngine(){
-        currentSpeed = 0.1;
+        if(currentSpeed <= 0) {
+            currentSpeed = 0.1;
+        }
     }
 
     /**
