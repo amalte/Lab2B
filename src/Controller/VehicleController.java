@@ -1,11 +1,14 @@
 package Controller;
 
+import Model.MotorizedVehicle;
+import Model.MotorizedVehicleFactory;
 import View.VehicleView;
 import Model.Saab95;
 import Model.Scania;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 
 /*
@@ -14,7 +17,7 @@ import java.awt.event.ActionListener;
 * modifying the model state and the updating the view.
  */
 
-public class VehicleController {
+public class VehicleController extends Observable {
 
     // The frame that represents this instance View of the MVC pattern
     private VehicleView frame;
@@ -38,6 +41,22 @@ public class VehicleController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 stopCars();
+            }
+        });
+
+        frame.getAddVehicleButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addVehicle();
+                notifyListChange(frame.getVehicleGUIList());
+            }
+        });
+
+        frame.getRemoveVehicleButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeVehicle();
+                notifyListChange(frame.getVehicleGUIList());
             }
         });
 
@@ -89,6 +108,7 @@ public class VehicleController {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().startEngine();
         }
+        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the stopEngine method for each car once
@@ -96,13 +116,33 @@ public class VehicleController {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().stopEngine();
         }
+        notifySpeedChange(frame.getVehicleGUIList());
     }
+
+    // Adds a new random vehicle
+    void addVehicle() {
+        if(frame.getVehicleGUIList().size() < 10) {
+            Random rand = new Random();
+            int randomX = rand.nextInt(400) + 100;
+            int randomY = rand.nextInt(400) + 100;
+            frame.addVehicle(MotorizedVehicleFactory.createRandomVehicle(), randomX, randomY);
+        }
+    }
+
+    // Removes the latest added vehicle to vehicleGUI List
+    void removeVehicle() {
+        if(frame.getVehicleGUIList().size() > 0) {
+            frame.getVehicleGUIList().remove(frame.getVehicleGUIList().size() - 1);
+        }
+    }
+
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().gas(gas);
         }
+        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the brake method for each car once
@@ -111,6 +151,7 @@ public class VehicleController {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().brake(brake);
         }
+        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the setTurboOn method if vehicle is a Saab95
@@ -120,6 +161,7 @@ public class VehicleController {
                 ((Saab95) frame.getVehicleGUI(i).getVehicle()).setTurboOn();
             }
         }
+        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the setTurboOn method if vehicle is a Saab95
@@ -129,6 +171,7 @@ public class VehicleController {
                 ((Saab95) frame.getVehicleGUI(i).getVehicle()).setTurboOff();
             }
         }
+        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the raiseFlatbed method if vehicle is a Scania

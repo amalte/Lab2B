@@ -27,18 +27,16 @@ public class Main {
 
         // Initialize the CarController
         VehicleController cc = new VehicleController(vehicleView);
+        cc.addObserver(speedView);
 
         // Create vehicles
         MotorizedVehicle volvo240 = MotorizedVehicleFactory.createVolvo240();
         MotorizedVehicle saab95 = MotorizedVehicleFactory.createSaab95();
         MotorizedVehicle scania = MotorizedVehicleFactory.createScania();
         // Add vehicles to the VehicleView
-        vehicleView.addVehicle(volvo240);
-        vehicleView.addVehicle(saab95, 0, 100);
-        vehicleView.addVehicle(scania, 0, 200);
-        // Add vehicles to the SpeedView
-        speedView.addVehicle(volvo240, saab95, scania);
-
+        //vehicleView.addVehicle(volvo240);
+        //vehicleView.addVehicle(saab95, 0, 100);
+        //vehicleView.addVehicle(scania, 0, 200);
 
         // Start the timer
         timer.start();
@@ -50,7 +48,6 @@ public class Main {
     static class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             vehicleView.updateView();
-            speedView.updateView();
         }
     }
 }

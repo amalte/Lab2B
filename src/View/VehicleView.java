@@ -20,9 +20,10 @@ public class VehicleView extends View {
     private static final int HEIGHT = 800;
 
     // Panels
-    DrawPanel drawPanel;
+    DrawPanel drawPanel = new DrawPanel(WIDTH, HEIGHT-240);
     JPanel controlPanel = new JPanel();
     JPanel gasPanel = new JPanel();
+    JPanel uniqueControlPanel = new JPanel();
 
     // Gas spinner
     JSpinner gasSpinner = new JSpinner();
@@ -36,13 +37,13 @@ public class VehicleView extends View {
     JButton turboOffButton = new JButton("Saab Turbo off");
     JButton liftBedButton = new JButton("Scania Raise Bed");
     JButton lowerBedButton = new JButton("Scania Lower Bed");
-    JButton startButton = new JButton("Start all cars");
-    JButton stopButton = new JButton("Stop all cars");
+    JButton startButton = new JButton("Start all vehicles");
+    JButton stopButton = new JButton("Stop all vehicles");
+    JButton addVehicleButton = new JButton("Add vehicle");
+    JButton removeVehicleButton = new JButton("Remove vehicle");
 
     // Constructor
     VehicleView(){
-        super(WIDTH, HEIGHT);
-        drawPanel = new DrawPanel(WIDTH, HEIGHT-240);
         initComponents();
     }
 
@@ -51,7 +52,7 @@ public class VehicleView extends View {
     protected void initComponents() {
 
         // General
-        //this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.add(drawPanel);
 
@@ -82,25 +83,33 @@ public class VehicleView extends View {
         controlPanel.setBackground(Color.CYAN);
         this.add(controlPanel);
 
+        // Unique control panel
+        uniqueControlPanel.setPreferredSize(new Dimension((WIDTH/5-3) * 2,200));
+        uniqueControlPanel.setLayout(new GridLayout(2,2));
+        this.add(uniqueControlPanel);
         // Start button
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension(WIDTH/5-15,200));
-        this.add(startButton);
-
+        uniqueControlPanel.add(startButton);
         // Stop button
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension(WIDTH/5-15,200));
-        this.add(stopButton);
+        uniqueControlPanel.add(stopButton);
+        // Add Vehicle button
+        addVehicleButton.setBackground(Color.CYAN);
+        addVehicleButton.setForeground(Color.black);
+        uniqueControlPanel.add(addVehicleButton);
+        // Remove Vehicle button
+        removeVehicleButton.setBackground(Color.ORANGE);
+        removeVehicleButton.setForeground(Color.black);
+        uniqueControlPanel.add(removeVehicleButton);
     }
 
-    @Override
     public void updateView() {
         for (int i = 0; i < drawPanel.getVehicleGUIs().size(); i++) {
             drawPanel.getVehicleGUIs().get(i).getVehicle().move();
-            drawPanel.repaint();    // Calls the paintComponent method of the panel
         }
+        drawPanel.repaint();    // Calls the paintComponent method of the panel
         keepVehiclesInsidePanel();
     }
 
@@ -199,5 +208,13 @@ public class VehicleView extends View {
 
     public JButton getStopButton() {
         return stopButton;
+    }
+
+    public JButton getAddVehicleButton() {
+        return addVehicleButton;
+    }
+
+    public JButton getRemoveVehicleButton() {
+        return removeVehicleButton;
     }
 }

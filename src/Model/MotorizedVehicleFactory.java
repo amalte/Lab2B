@@ -1,12 +1,25 @@
 package Model;
 
-
 import java.awt.*;
+import java.util.Random;
 
 public class MotorizedVehicleFactory {
 
     // Private so class cannot be instanciable through constructor
     private MotorizedVehicleFactory(){}
+
+    public static MotorizedVehicle createRandomVehicle() {
+        Random rand = new Random();
+        int randN = rand.nextInt(3);
+        if(randN == 0) {
+            return createVolvo240();
+        } if(randN == 1) {
+            return createSaab95();
+        } if(randN == 2) {
+            return createScania();
+        }
+        return null;
+    }
 
     public static MotorizedVehicle createVolvo240() {
         return new Volvo240();
