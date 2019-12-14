@@ -8,8 +8,6 @@ public class MainFrame extends JFrame {
     private JPanel mainPanel = new JPanel();
 
     public MainFrame(String frameName) {
-
-
         mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(mainPanel);
 
@@ -26,6 +24,4 @@ public class MainFrame extends JFrame {
         this.pack();    // Make the frame pack all it's components by respecting the sizes if possible.
         this.setLocationRelativeTo(null);   // Sets frame position to center of screen depending on the frames component sizes.
     }
-
-
 }

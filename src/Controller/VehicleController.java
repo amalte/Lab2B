@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.MotorizedVehicle;
 import Model.MotorizedVehicleFactory;
 import View.VehicleView;
 import Model.Saab95;
@@ -34,6 +33,7 @@ public class VehicleController extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 startCars();
+                notifySpeedChange(frame.getVehicleGUIList());
             }
         });
 
@@ -41,6 +41,7 @@ public class VehicleController extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 stopCars();
+                notifySpeedChange(frame.getVehicleGUIList());
             }
         });
 
@@ -64,6 +65,7 @@ public class VehicleController extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gas(frame.getGasAmount());
+                notifySpeedChange(frame.getVehicleGUIList());
             }
         });
 
@@ -71,6 +73,7 @@ public class VehicleController extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 brake(frame.getGasAmount());
+                notifySpeedChange(frame.getVehicleGUIList());
             }
         });
 
@@ -78,6 +81,7 @@ public class VehicleController extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 turboOn();
+                notifySpeedChange(frame.getVehicleGUIList());
             }
         });
 
@@ -85,6 +89,7 @@ public class VehicleController extends Observable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 turboOff();
+                notifySpeedChange(frame.getVehicleGUIList());
             }
         });
 
@@ -108,7 +113,7 @@ public class VehicleController extends Observable {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().startEngine();
         }
-        notifySpeedChange(frame.getVehicleGUIList());
+
     }
 
     // Calls the stopEngine method for each car once
@@ -116,15 +121,14 @@ public class VehicleController extends Observable {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().stopEngine();
         }
-        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Adds a new random vehicle
     void addVehicle() {
         if(frame.getVehicleGUIList().size() < 10) {
             Random rand = new Random();
-            int randomX = rand.nextInt(400) + 100;
-            int randomY = rand.nextInt(400) + 100;
+            int randomX = rand.nextInt(600) + 100;
+            int randomY = rand.nextInt(500);
             frame.addVehicle(MotorizedVehicleFactory.createRandomVehicle(), randomX, randomY);
         }
     }
@@ -142,7 +146,6 @@ public class VehicleController extends Observable {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().gas(gas);
         }
-        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the brake method for each car once
@@ -151,7 +154,6 @@ public class VehicleController extends Observable {
         for(int i = 0; i < frame.getVehicleGUIList().size(); i++) {
             frame.getVehicleGUI(i).getVehicle().brake(brake);
         }
-        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the setTurboOn method if vehicle is a Saab95
@@ -161,7 +163,6 @@ public class VehicleController extends Observable {
                 ((Saab95) frame.getVehicleGUI(i).getVehicle()).setTurboOn();
             }
         }
-        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the setTurboOn method if vehicle is a Saab95
@@ -171,7 +172,6 @@ public class VehicleController extends Observable {
                 ((Saab95) frame.getVehicleGUI(i).getVehicle()).setTurboOff();
             }
         }
-        notifySpeedChange(frame.getVehicleGUIList());
     }
 
     // Calls the raiseFlatbed method if vehicle is a Scania

@@ -24,9 +24,8 @@ UPPGIFT 4: NY DESIGN
 x Ta bort "Has-A" CarController från CarView
 x Flytta ActionListeners till CarController (Controller ska sköta användarinput).
 ? Skapa en metod i CarController som lägger till en MotoriziedVehicle i vehicle och vehicleGUI listan (istället för att mata in dem direkt i konstruktorn) för att motverka inflexibilitet.
-- Skapa en metod i CarController som tar emot en view och tillämpar controllerns funktionalitet på viewen (flera views kan tillägas)
 x Ta bort MotoriziedVehicle (Volvo240, Saab95, Scania) beroenderna som finns i VehicleGUI genom att använda getModelName.
-? Flytta timern från CarController till Main.
+x Flytta timern från CarController till Main.
 x Ta bort Point variabeln i VehicleGUI och ersätt med Modelens koordinater
 
 Lab2B
@@ -48,5 +47,4 @@ Ta bort beroendet mellan CarView och MotorizedVehicle.
 
 FRÅGOR:
 Diamant pilar (PILAR GENERELLT)
-== istället för .equals i String jämförelse (VehicleGUI).
 Är beroendet mellan CarController och VehicleGUI svagare eftersom vi inte importerar klassen direkt utan använder en getter istället?

@@ -4,57 +4,54 @@ import Controller.IObserver;
 import Model.MotorizedVehicle;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class SpeedView extends View implements IObserver {
 
-    private static final int WIDTH = 150;
-    private static final int HEIGHT = 250;
-    private ArrayList<MotorizedVehicle> vehicles = new ArrayList<>();
+    private static int WIDTH = 150;
+    private static int HEIGHT = 40;
     private ArrayList<JLabel> labels = new ArrayList<>();
+    private JLabel viewName = new JLabel("<html><h3><u>Vehicle Speeds</u></h3></html>");
 
     SpeedView() {
         initComponents();
     }
 
-    /*
-    public void addVehicle(MotorizedVehicle... vehicles) {
-        for(MotorizedVehicle motorizedVehicle : vehicles) {
-            this.vehicles.add(motorizedVehicle);
-            JLabel label = new JLabel(motorizedVehicle.getModelName() + " - Update Error");
-            labels.add(label);
-            this.add(label);
-        }
-    }*/
+    private void addSpeedLabel(ArrayList<VehicleGUI> vehicleGUIList) {
+        JLabel label = new JLabel(vehicleGUIList.get(vehicleGUIList.size() - 1).getVehicle().getModelName() + "  speed:  0,00");
+        label.setBorder(new EmptyBorder(0, 5, 0, 0));
+        this.add(label);
+        labels.add(label);
+        HEIGHT += 16;
+    }
+
+    private void removeSpeedLabel() {
+        this.remove(labels.get(labels.size() - 1));
+        labels.remove(labels.get(labels.size() - 1));
+        HEIGHT -= 16;
+    }
 
     @Override
     protected void initComponents() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBackground(Color.CYAN);
-    }
+        this.setBackground(Color.LIGHT_GRAY);
 
-    /*@Override
-    public void updateView() {
-        for(JLabel label : labels) {
-            MotorizedVehicle currentVehicle = vehicles.get(labels.indexOf(label));
-            label.setText(String.format("%s  speed:  %.2f", currentVehicle.getModelName(), currentVehicle.getCurrentSpeed()));
-            this.repaint();
-        }
-    }*/
+        viewName.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(viewName);
+    }
 
     @Override
     public void actOnVehicleListChange(ArrayList<VehicleGUI> vehicleGUIList) {
-            if(vehicleGUIList.size() < labels.size()) {
-                this.remove(labels.get(labels.size() - 1));
-                labels.remove(labels.get(labels.size() - 1));
-            } else if(vehicleGUIList.size() > labels.size()){
-                JLabel label = new JLabel(vehicleGUIList.get(vehicleGUIList.size() - 1).getVehicle().getModelName() + " speed: 0");
-                this.add(label);
-                labels.add(label);
-            }
-        this.validate();
+        if(vehicleGUIList.size() > labels.size()) {         // Add speed label
+            addSpeedLabel(vehicleGUIList);
+        } else if(vehicleGUIList.size() < labels.size()){   // Remove speed label
+            removeSpeedLabel();
+        }
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.revalidate();
         this.repaint();
     }
 

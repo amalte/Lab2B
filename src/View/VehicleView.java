@@ -89,7 +89,7 @@ public class VehicleView extends View {
         this.add(uniqueControlPanel);
         // Start button
         startButton.setBackground(Color.blue);
-        startButton.setForeground(Color.green);
+        startButton.setForeground(Color.black);
         uniqueControlPanel.add(startButton);
         // Stop button
         stopButton.setBackground(Color.red);

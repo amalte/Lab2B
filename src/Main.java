@@ -1,7 +1,5 @@
 import Controller.VehicleController;
 
-import Model.MotorizedVehicle;
-import Model.MotorizedVehicleFactory;
 import View.MainFrame;
 import View.SpeedView;
 import View.VehicleView;
@@ -28,15 +26,6 @@ public class Main {
         // Initialize the CarController
         VehicleController cc = new VehicleController(vehicleView);
         cc.addObserver(speedView);
-
-        // Create vehicles
-        MotorizedVehicle volvo240 = MotorizedVehicleFactory.createVolvo240();
-        MotorizedVehicle saab95 = MotorizedVehicleFactory.createSaab95();
-        MotorizedVehicle scania = MotorizedVehicleFactory.createScania();
-        // Add vehicles to the VehicleView
-        //vehicleView.addVehicle(volvo240);
-        //vehicleView.addVehicle(saab95, 0, 100);
-        //vehicleView.addVehicle(scania, 0, 200);
 
         // Start the timer
         timer.start();
